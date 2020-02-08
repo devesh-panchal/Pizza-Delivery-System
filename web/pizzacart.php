@@ -1,0 +1,440 @@
+<?php
+if(isset($_SESSION['username']))
+	{
+		$userName = $_SESSION['username'];	
+	}
+	
+				
+	
+
+				
+
+require_once("includes/config.php");
+include 'dbConfig.php';
+$db_handle = new Config();
+include 'Cart.php';
+$cart = new Cart;
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Yummy Pizza a Food Category </title>
+<!-- Custom Theme files -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Pizza Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
+	Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- //Custom Theme files -->
+<link href="css/bootstrap.css" type="text/css" rel="stylesheet" media="all">
+<link href="css/style.css" type="text/css" rel="stylesheet" media="all">
+<!--js-->
+<script src="js/jquery-1.11.1.min.js"></script> 
+<script src="js/modernizr.custom.js"></script>
+<!-- //js -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+	
+	<style>
+    .container{padding: 50px;}
+    input[type="number"]{width: 30%;}
+    </style>
+    <script>
+    function updateCartItem(obj,id){
+        $.get("cartAction.php", {action:"updateCartItem", id:id, qty:obj.value}, function(data){
+            if(data == 'ok'){
+                location.reload();
+            }else{
+                alert('Cart update failed, please try again.');
+            }
+        });
+    }
+    </script>
+<style>
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
+<style> 
+input[type=text] {
+    width: 120px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+	text-color:green;
+	text-decoration:bold;
+    background-color: white;
+	border-color : orange;
+    background-image: url('searchicon.png');
+    background-position: 10px 10px; 
+    background-repeat: no-repeat;
+    padding: 12px 20px 12px 40px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+
+input[type=text]:focus {
+    width: 90%;
+}
+img {
+    border-radius: 20px;
+}
+</style>
+
+<style>
+.btn {
+    position: relative;
+    background-color: #4CAF50;
+    border: none;
+    font-size: 18px;
+    color: #FFFFFF;
+    padding: 10px;
+    width: 200px;
+    text-align: center;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    text-decoration: none;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.button:after {
+    content: "";
+    background: #90EE90;
+    display: block;
+    position: absolute;
+    padding-top: 300%;
+    padding-left: 350%;
+    margin-left: -20px!important;
+    margin-top: -120%;
+    opacity: 0;
+    transition: all 0.8s
+}
+
+.button:active:after {
+    padding: 0;
+    margin: 0;
+    opacity: 1;
+    transition: 0s
+</style>
+<style>
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+	height:60px;
+	width: 150px;
+	margin:200px
+    font-size: 16px;
+    border: none;
+}
+.dropbtn{border-radius: 12px;}
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+.container img {
+    width: 100%;
+    height: auto;
+	}
+.dropdown-content {
+    display: none;
+    position: absolute;
+	text-color:blue
+    background-color: green;
+    min-width: 200px;
+    box-shadow: 10px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: blue;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {background-color: #4CAF50}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: orange;
+}
+</style>
+<style>
+.button {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #4CAF50;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 28px;
+  padding: 20px;
+  border-radius: 10px;
+  width: 200px;
+  height:100px;
+  text-align: center
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 25px;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+</style>
+<script>
+	$(document).ready(function () {
+	    size_li = $("#myList li").size();
+	    x=1;
+	    $('#myList li:lt('+x+')').show();
+	    $('#loadMore').click(function () {
+	        x= (x+1 <= size_li) ? x+1 : size_li;
+	        $('#myList li:lt('+x+')').show();
+	    });
+	    $('#showLess').click(function () {
+	        x=(x-1<0) ? 1 : x-1;
+	        $('#myList li').not(':lt('+x+')').hide();
+	    });
+	});
+</script>
+</head>
+<body>
+
+	<!--banner-->
+	<div class="banner">
+		<div class="banner-info">
+			<div class="container">
+				<div class="logo">
+					<div class="ribbon">
+					
+						<div class="ribbon-fold"><h1> <a href="index.php"> Yummy Pizza</a></h1></div>
+					</div>
+					<br>
+					
+					<h2>Better Ingredients better Pizza</h2>
+				</div>			
+				<!--navigation-->
+				<div class="top-nav">
+					<nav class="navbar navbar-default">
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+								<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+						</div>
+						<!-- Collect the nav links, forms, and other content for toggling -->
+						<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+							<ul class="nav navbar-nav navbar-center cl-effect-14">
+								<li><a href="index.php" class="active">Home</a></li>
+								<li><a href="veg.php" class="active">Menu</a></li>
+								<li><a href="about.php">About</a></li>					
+								
+								<li><a href="gallery.php">Gallery</a></li>	
+								<li><a href="contact.php">Contact</a></li>
+								<li>
+			<?php
+				if(isset($_SESSION["username"]))
+				{
+					echo("<li><a href='profile.php'>Settings</a></li>
+					<li><a href='pizzacart.php'>Cart<span class='glyphicon glyphicon-shopping-cart'></span></a></li>
+			
+					<li><a href='signin/login/logout.php'>Logout</a></li>");
+				}
+				else
+				{
+					echo("
+					<li><a href='signin/index.php'>Sign Up</a></li>
+					<li><a href='signin/index.php'>Login</a></li>
+					");
+				}
+			?>
+				
+			
+		                    </li>   						
+							</ul>
+							<br>
+							<br>
+							<form>
+								<br>
+						        <br>
+					            <br>
+								<input type="text"  align="left" name="search" placeholder="Search..">
+						
+							</form>
+								
+							<div class="clearfix"> </div>
+						</div>	
+					</nav>		
+				</div>	
+				<!--navigation-->
+			</div>
+		
+	
+	<!--//banner-->
+	<!--banner-bottom-->
+	
+	
+	
+
+	
+	
+	</div>
+	</div>
+	<center>
+	<div class="container">
+    <h1>Shopping Cart</h1>
+    <table class="table">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Subtotal</th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        if($cart->total_items() > 0){
+            //get cart items from session
+            $cartItems = $cart->contents();
+            foreach($cartItems as $item){
+        ?>
+        <tr>
+            <td><?php echo $item["name"]; ?></td>
+            <td><?php echo '$'.$item["price"].' USD'; ?></td>
+            <td><input type="number" class="form-control text-center" value="<?php echo $item["qty"]; ?>" onchange="updateCartItem(this, '<?php echo $item["rowid"]; ?>')"></td>
+            <td><?php echo '$'.$item["subtotal"].' USD'; ?></td>
+            <td>
+                <!--<a href="cartAction.php?action=updateCartItem&id=" class="btn btn-info"><i class="glyphicon glyphicon-refresh"></i></a>-->
+                <a href="cartAction.php?action=removeCartItem&id=<?php echo $item["rowid"]; ?>" class="btn btn-danger" onclick="return confirm('Are you sure?')"><i class="glyphicon glyphicon-trash"></i></a>
+            </td>
+        </tr>
+        <?php } }else{ ?>
+        <tr><td colspan="5"><p>Your cart is empty.....</p></td>
+        <?php } ?>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td><a href="veg.php" class="btn btn-warning"><i class="glyphicon glyphicon-menu-left"></i> Continue Shopping</a></td>
+            <td colspan="2"></td>
+            <?php if($cart->total_items() > 0){ ?>
+            <td class="text-center"><strong>Total <?php echo '$'.$cart->total().' USD'; ?></strong></td>
+            <td><a href="checkoutform.php" class="btn btn-success btn-block">Checkout <i class="glyphicon glyphicon-menu-right"></i></a></td>
+            <?php } ?>
+        </tr>
+    </tfoot>
+    </table>
+</div>
+</center>
+
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<div class="footer">
+		<div class="container">
+			<div class="col-md-3 footer-left">
+				<h4>Address</h4>
+				<ul>
+					<li>New York Restaurant</li>
+					<li>3926 Anmoore Road</li>
+					<li>New York, NY 10014</li>
+					<li>718-749-1714</li>
+				</ul>				
+			</div>
+			<!--<div class="col-md-3 footer-left">
+				<h4>Popular</h4>
+				<ul>
+					<li><a href="#">Proin placerat</a></li>
+					<li><a href="#">Ipsum et rutrum</a></li>
+					<li><a href="#">Proin semper utr</a></li>
+					<li><a href="#">ligula sit amet</a></li>
+				</ul>
+			</div>-->
+			<div class="col-md-3 footer-left">
+		 		<h4>Details</h4>
+				<ul>
+					<li><a href="about.html">About</a></li>
+					<li><a href="gallery.html">Gallery</a></li>
+					<li><a href="signin/admin/index.php">admin</a></li>
+					<li><a href="contact.html">Contact</a></li>
+				</ul>
+			</div>
+			<div class="col-md-3 footer-right">
+				<p> © 2016 Pizza . All rights reserved  </p>
+				<div class="icons">
+				<ul>
+					<li><a href="#" class="twitter"> </a></li>
+					<li><a href="#" class="twitter facebook"> </a></li>
+					<li><a href="#" class="twitter chrome"> </a></li>
+					<li><a href="#" class="twitter pinterest"> </a></li>
+					<li><a href="#" class="twitter linkedin"> </a></li>
+				</ul>
+			</div>
+			</div>
+			<div class="clearfix"> </div>
+		</div>
+	</div>
+	<!--//footer-->
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/bootstrap.js"></script>
+</body>
+</html>
